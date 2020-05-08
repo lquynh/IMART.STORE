@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="shop0903" Class="DBShopDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=LQUYNH\SERVER1;Initial Catalog=shop0903;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="shop0903ConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.bill_detail" Member="bill_details">
+    <Type Name="bill_detail">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="id_bill" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="id_product" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="quanlity" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="price" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Association Name="bill_bill_detail" Member="bill" ThisKey="id_bill" OtherKey="id" Type="bill" IsForeignKey="true" />
+      <Association Name="product_bill_detail" Member="product" ThisKey="id_product" OtherKey="id" Type="product" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.bills" Member="bills">
+    <Type Name="bill">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="id_customers" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="date_order" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="total" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="payment_method" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="note" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="token" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="token_date" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="status" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="address" Type="System.String" CanBeNull="false" />
+      <Column Name="phone" Type="System.String" CanBeNull="false" />
+      <Association Name="bill_bill_detail" Member="bill_details" ThisKey="id" OtherKey="id_bill" Type="bill_detail" />
+      <Association Name="customer_bill" Member="customer" ThisKey="id_customers" OtherKey="id" Type="customer" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.categories" Member="categories">
+    <Type Name="category">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="id_parent" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="name" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="id_url" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="icon" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="category_product" Member="products" ThisKey="id" OtherKey="id_type" Type="product" />
+      <Association Name="page_url_category" Member="page_url" ThisKey="id_url" OtherKey="id" Type="page_url" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.customers" Member="customers">
+    <Type Name="customer">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="name" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="gender" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="email" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="address" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="phone" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="note" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="password" Type="System.String" CanBeNull="false" />
+      <Association Name="customer_bill" Member="bills" ThisKey="id" OtherKey="id_customers" Type="bill" />
+    </Type>
+  </Table>
+  <Table Name="dbo.products" Member="products">
+    <Type Name="product">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="id_type" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="id_url" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="name" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="detail" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+      <Column Name="price" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="promotion_price" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="promotion" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+      <Column Name="image" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="status" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="new" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="update_at" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="deleted" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Association Name="product_bill_detail" Member="bill_details" ThisKey="id" OtherKey="id_product" Type="bill_detail" />
+      <Association Name="category_product" Member="category" ThisKey="id_type" OtherKey="id" Type="category" IsForeignKey="true" />
+      <Association Name="page_url_product" Member="page_url" ThisKey="id_url" OtherKey="id" Type="page_url" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.slide" Member="slides">
+    <Type Name="slide">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="image" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="link" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="title" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="status" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.page_url" Member="page_urls">
+    <Type Name="page_url">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="url" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Association Name="page_url_category" Member="categories" ThisKey="id" OtherKey="id_url" Type="category" />
+      <Association Name="page_url_product" Member="products" ThisKey="id" OtherKey="id_url" Type="product" />
+    </Type>
+  </Table>
+</Database>
